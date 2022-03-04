@@ -1,0 +1,73 @@
+<!-- 24A- criacao do formulario de cadastro -->
+<h4 class="text-center mt-3">Cadastro de novo usuário</h4>
+
+<!-- 29A- coloque o [formGroup]="novoUsuarioForm" (submit)="cadastrar()" no form para ele ser represetado por um formulario (reativo) angular-->
+<form class="form mt-5 mx-3" [formGroup]="novoUsuarioForm" (submit)="cadastrar()">
+
+  <div class="form-group my-2">
+
+    <!-- email -->
+    <div class="input-group">
+      <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+      <!-- 29B- coloque o formControlName="email" -->
+      <input class="form-control" type="email" placeholder="E-mail" formControlName="email">
+    </div>
+    <!-- 30B- escrever a mensagem que sera mostrada para o usuario (mensagem="E-mail obrigatório"> e mensagem="E-mail no formato incorreto") e depois usar o *ngIf (com as condições padroes do angular)-->
+    <app-mensagem
+      *ngIf="novoUsuarioForm.get('email')?.errors?.['required'] && novoUsuarioForm.get('email')?.['touched']"
+      mensagem="E-mail obrigatório"></app-mensagem>
+    <app-mensagem *ngIf="novoUsuarioForm.get('email')?.errors?.['email'] && novoUsuarioForm.get('email')?.['touched']"
+      mensagem="E-mail no formato incorreto"></app-mensagem>
+  </div>
+
+  <!-- nome completo -->
+  <div class="form-group my-2">
+    <div class="input-group">
+      <span class="input-group-text"><i class="fa fa-user"></i></span>
+      <!-- 29B- coloque o formControlName="fullName" -->
+      <input class="form-control" type="text" placeholder="Nome completo" formControlName="fullName">
+    </div>
+    <!-- 30B- passar a mensagem e usar o *ngIf (com as condições padroes do angular), para o proximo vamos criar conição custoizada em minusculo.validator.ts -->
+    <app-mensagem *ngIf="novoUsuarioForm.get('fullName')?.errors && novoUsuarioForm.get('fullName')?.['touched']"
+      mensagem="Nome incorreto"></app-mensagem>
+  </div>
+
+  <!-- usuario -->
+  <div class="form-group my-2">
+    <div class="input-group">
+      <span class="input-group-text"><i class="fa fa-user"></i></span>
+      <!-- 29B- coloque o formControlName="userName" -->
+      <input class="form-control" type="text" placeholder="Usuário" formControlName="userName">
+    </div>
+    <!-- 31C- passar a mensagem e usar o *ngIf, depois crie a função para verificar se o usuario existe em novo-usuario.service.ts -->
+    <app-mensagem
+      *ngIf="novoUsuarioForm.get('userName')?.errors?.['minusculo'] && novoUsuarioForm.get('userName')?.touched"
+      mensagem="Usuário deve ser em letra minúscula"></app-mensagem>
+      <!-- 31H- passa a mensagem e faz a condição, depois foi criado o validator usuario-senha-iguais -->
+    <app-mensagem *ngIf="novoUsuarioForm.get('userName')?.errors?.['usuarioExistente']" mensagem="Usuário já existe">
+    </app-mensagem>
+  </div>
+
+  <!-- senha -->
+  <div class="form-group my-2">
+    <div class="input-group">
+      <span class="input-group-text"><i class="fa fa-lock"></i></span>
+      <!-- 29B- coloque o formControlName="password", depois vai para novo-usuario.component.ts -->
+      <input class="form-control" type="password" placeholder="Senha" formControlName="password">
+    </div>
+    <!-- 31K- passar a mensagem com a validação, depois vai para novo-usuario.component.ts -->
+    <app-mensagem
+      *ngIf="novoUsuarioForm.errors?.['senhaIgualUsuario']"
+      mensagem="Senha deve ser diferente do usuário"
+    >
+    </app-mensagem>
+  </div>
+
+  <div class="input group">
+    <button class="btn btn-primary btn-block form-control"> Cadastro</button>
+  </div>
+
+</form>
+
+<!-- 25A- cirar rotas para quem nao é usuario e pra quem é -->
+<p>Já é um usuários? <a [routerLink]="['']">Login!</a></p>

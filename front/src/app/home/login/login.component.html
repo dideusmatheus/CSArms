@@ -1,0 +1,51 @@
+<!-- 10A- CRIAÇÃO DO LAYOUT DE LOGIN -->
+<!-- 10B- titulo do login -->
+<h4 class="text-center mt-3">---- Login ----</h4>
+
+<!--15- PARA FAZER O LOGIN
+    15A- coloque o (ngSubmit) que vai receber uma função login(), criada por mim -->
+<!-- 10C- formulario para login -->
+<form class="form mt-5 mx-3" (ngSubmit)="login()" #loginForm="ngForm">
+  <!-- 22A-VALIDAÇÃO DO BOTTON -->
+  <!-- 22A- para o botao estiver ativo somente quando os campos forem preenchidos deve-se usar #loginForm="ngForm" -->
+
+  <!-- 10D- primeiro input -->
+  <div class="form-group my-2">
+    <div class="input-group">
+      <span class="input-group-text"><i class="fa fa-user"></i></span>
+      <!--15B- coloque o [(ngModel)] para realizar o mapeamento para o usuario e depois coloca o name='usuario' -->
+      <input [(ngModel)]="usuario" name="usuario" class="form-control" type="text" placeholder="Nome do usuário"
+        #campoUsuario="ngModel" required>
+    </div>
+    <!-- 20B- para fazer a condição do ngIf deve colocar uma tributo no input (#campoUsuario="ngModel"), a cima -->
+    <!-- 20A- usar o app-mensagem e passar o atributo mensagem(porem ele sempre vai aparecer na tela, para mudar isso foi usado um ngIf / invalid para invalido e touched para quando o usuario passar o mouse por cima ) -->
+    <!-- 20A- VALIDAÇÃO DO INPUT USUARIO -->
+    <app-mensagem *ngIf="campoUsuario.invalid && campoUsuario.touched" mensagem="Usuário obrigatório"></app-mensagem>
+  </div>
+
+
+  <!-- 10E- segundo input -->
+  <div class="form-group my-2">
+    <div class="input-group">
+      <span class="input-group-text"><i class="fa fa-lock"></i></span>
+      <!-- 15C- coloque o [(ngModel)] para realizar o mapeamento para a senha e depois coloca o name='senha' -->
+      <!-- 15D- depois crie a funcao login no login.component.ts -->
+      <input [(ngModel)]="senha" name="senha" type="password" class="form-control" placeholder="Senha"
+        #campoSenha="ngModel" required>
+    </div>
+    <!-- 21B- para fazer a condição do ngIf deve colocar uma tributo no input (#campoSenha="ngModel"), a cima -->
+    <!-- 21A- usar o app-mensagem e passar o atributo mensagem(porem ele sempre vai aparecer na tela, para mudar isso foi usado um ngIf / invalid para invalido e touched para quando o usuario passar o mouse por cima) -->
+    <!-- 21A- VALIDAÇÃO DO INPUT SENHA -->
+    <app-mensagem *ngIf="campoSenha.invalid && campoSenha.touched" mensagem="Senha obrigatória"></app-mensagem>
+  </div>
+
+  <!-- 10F- botao de submit, feito isso vá ate o home.component.html -->
+  <div class="my-2">
+    <!-- 22B- para fazer a habilitação do botao, coloque [disable='loginForm.invalid'], depois vamos fazer o cadastro de novo-usuario mas antes vamos criar a rota em home-routing -->
+    <button [disabled]="loginForm.invalid" type="submit" class="btn btn-primary btn-block form-control">Login</button>
+  </div>
+</form>
+
+
+<!-- 25B- cirar rotas para quem nao é usuario e pra quem é -->
+<p>Não é usuário? <a [routerLink]="['novousuario']">Se cadastre!</a></p>
